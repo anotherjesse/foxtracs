@@ -1,0 +1,7 @@
+task :default=>:build
+
+desc "build the xpi"
+task :build do
+  `rm -f firetracks.xpi`
+  `find . | egrep -v '(README|firetracks.xpi|rakefile)' | xargs zip firetracks.xpi`
+end
