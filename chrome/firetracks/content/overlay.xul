@@ -3,8 +3,8 @@
 
   <menupopup id="menu_ToolsPopup">
     <menuitem insertafter="devToolsSeparator" 
-      label="Fire Tracks"
-      accesskey="F"
-      oncommand="openUILinkIn('chrome://firetracks/content/trac.xul', 'current')" />
+              label="Fire Tracks"
+              accesskey="F"
+              oncommand="openUILinkIn('chrome://firetracks/content/trac.xul', 'current')" />
   </menupopup>
 </overlay>

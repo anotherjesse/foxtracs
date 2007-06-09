@@ -6,16 +6,16 @@
   <script type="text/javascript"><![CDATA[ 
   
     function loadJS() {
-    	const loader = Components.classes["@mozilla.org/moz/jssubscript-loader;1"]
-                  						 .getService(Components.interfaces.mozIJSSubScriptLoader);
+      const loader = Components.classes["@mozilla.org/moz/jssubscript-loader;1"]
+                               .getService(Components.interfaces.mozIJSSubScriptLoader);
 
-  		var scripts = [
-  			'chrome://firetracks/content/trac.js', 
-  			];
+      var scripts = [
+        'chrome://firetracks/content/trac.js', 
+        ];
 
-  		for (var i = 0; i < scripts.length; i++) {
-  			loader.loadSubScript(scripts[i], window);
-  		}
+      for (var i = 0; i < scripts.length; i++) {
+        loader.loadSubScript(scripts[i], window);
+      }
     }
 
     window.addEventListener("load", loadJS, false);
@@ -69,47 +69,47 @@
          </rule>
        </template>
        <treecols anonid="treecols">
-    	   <treecol id="ticket" label="ticket" flex="1" primary="true"
-  	              class="sortDirectionIndicator"
-  	              persist="width hidden ordinal"
-  	              sort="rdf:http://home.netscape.com/NC-rdf#ticket"
-  	              sortActive="true" sortDirection="none"/>
+         <treecol id="ticket" label="ticket" flex="1" primary="true"
+                  class="sortDirectionIndicator"
+                  persist="width hidden ordinal"
+                  sort="rdf:http://home.netscape.com/NC-rdf#ticket"
+                  sortActive="true" sortDirection="none"/>
  
-  	     <treecol id="summary" label="summary" flex="1" primary="true"
-  	              class="sortDirectionIndicator"
-  	              persist="width hidden ordinal"
-  	              sort="rdf:http://home.netscape.com/NC-rdf#summary"
-  	              sortActive="true" sortDirection="none"/>
+         <treecol id="summary" label="summary" flex="1" primary="true"
+                  class="sortDirectionIndicator"
+                  persist="width hidden ordinal"
+                  sort="rdf:http://home.netscape.com/NC-rdf#summary"
+                  sortActive="true" sortDirection="none"/>
  
-  	     <treecol id="component" label="component" flex="1"
-  	               class="sortDirectionIndicator"
-  	               persist="width hidden ordinal"
-  	               sort="rdf:http://home.netscape.com/NC-rdf#component"
-  	               sortActive="true" sortDirection="none"/>
+         <treecol id="component" label="component" flex="1"
+                   class="sortDirectionIndicator"
+                   persist="width hidden ordinal"
+                   sort="rdf:http://home.netscape.com/NC-rdf#component"
+                   sortActive="true" sortDirection="none"/>
  
-  	     <treecol id="version" label="version" flex="1"
-  	               class="sortDirectionIndicator"
-  	               persist="width hidden ordinal"
-  	               sort="rdf:http://home.netscape.com/NC-rdf#version"
-  	               sortActive="true" sortDirection="none"/>
+         <treecol id="version" label="version" flex="1"
+                   class="sortDirectionIndicator"
+                   persist="width hidden ordinal"
+                   sort="rdf:http://home.netscape.com/NC-rdf#version"
+                   sortActive="true" sortDirection="none"/>
  
-  	     <treecol id="milestone" label="milestone" flex="1"
-  	               class="sortDirectionIndicator"
-  	               persist="width hidden ordinal"
-  	               sort="rdf:http://home.netscape.com/NC-rdf#milestone"
-  	               sortActive="true" sortDirection="none"/>
+         <treecol id="milestone" label="milestone" flex="1"
+                   class="sortDirectionIndicator"
+                   persist="width hidden ordinal"
+                   sort="rdf:http://home.netscape.com/NC-rdf#milestone"
+                   sortActive="true" sortDirection="none"/>
  
-  	     <treecol id="type" label="type" flex="1"
-  	               class="sortDirectionIndicator"
-  	               persist="width hidden ordinal"
-  	               sort="rdf:http://home.netscape.com/NC-rdf#type"
-  	               sortActive="true" sortDirection="none"/>
+         <treecol id="type" label="type" flex="1"
+                   class="sortDirectionIndicator"
+                   persist="width hidden ordinal"
+                   sort="rdf:http://home.netscape.com/NC-rdf#type"
+                   sortActive="true" sortDirection="none"/>
   
-  	     <treecol id="_reporter" label="reporter" flex="1"
-  	               class="sortDirectionIndicator"
-  	               persist="width hidden ordinal"
-  	               sort="rdf:http://home.netscape.com/NC-rdf#_reporter"
-  	               sortActive="true" sortDirection="none"/>
+         <treecol id="_reporter" label="reporter" flex="1"
+                   class="sortDirectionIndicator"
+                   persist="width hidden ordinal"
+                   sort="rdf:http://home.netscape.com/NC-rdf#_reporter"
+                   sortActive="true" sortDirection="none"/>
  
        </treecols>
      </tree>
