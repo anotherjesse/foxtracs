@@ -35,6 +35,9 @@
       if (PREFS.getPrefType('baseUrl')) {
   	    inst.load();
       }
+      else {
+        inst.setup();
+      }
     }
   
     this.save = function() {
@@ -74,6 +77,13 @@
   	  req.send(null);
   	  inst.list();
     }
+    this.setup = function() {
+      if (PREFS.getPrefType('baseUrl')) {
+        $('trac-url').value = PREFS.getCharPref('baseUrl');
+      }
+      
+      $('trac-deck').selectedIndex = 0;
+    }
     this.list = function() {
       $('trac-deck').selectedIndex = 1;
     }
@@ -91,6 +101,8 @@
     <button oncommand="tracker.load()" label="reload" />
     <button oncommand="tracker.list()" label="list" />
     <button oncommand="tracker.tree()" label="tree" />
+    <spacer flex="1" />
+    <button oncommand="tracker.setup()" label="setup" />
   </hbox>
   <deck flex="1" id="trac-deck">
     <vbox flex="1">
