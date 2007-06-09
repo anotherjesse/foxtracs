@@ -1,0 +1,144 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+ 
+<page xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+  <script type="text/javascript">
+ 
+  var $ = function(x) { return document.getElementById(x) };
+  var CC = Components.classes;
+  var CI = Components.interfaces;
+ 
+ 	const RDFS = Components.classes['@mozilla.org/rdf/rdf-service;1'].getService(CI.nsIRDFService);
+	const RDFCU = Components.classes['@mozilla.org/rdf/container-utils;1'].getService(CI.nsIRDFContainerUtils);
+	const NSRDF = function(name) { return RDFS.GetResource('http://home.netscape.com/NC-rdf#'+name); }
+ 
+	window.addEventListener('load', function() {
+ 
+	  function RDF() {
+	    var inst=this;
+ 
+	    this.ds = Components.classes['@mozilla.org/rdf/datasource;1?name=in-memory-datasource']
+	                        .createInstance(CI.nsIRDFDataSource);
+ 
+	    this.bag = RDFCU.MakeBag(this.ds, RDFS.GetResource("urn:root"));
+ 
+	    this.add = function( uri, val ) {
+	      var resource = RDFS.GetResource(uri);
+				for (var k in val) {
+		      inst.ds.Assert(resource, NSRDF(k), RDFS.GetLiteral(val[k]), true);
+				}
+	      inst.bag.AppendElement(resource);
+	    }
+	  }
+ 
+	  var rdf = new RDF();
+ 
+		$('mytree').database.AddDataSource(rdf.ds);
+		$('mytree').builder.rebuild();
+ 
+  	var url="http://xxxxxxxxxxxxxxxxxx/xxxxx/report/7?format=tab";
+	  var req = new XMLHttpRequest();
+	  req.open('GET', url, true); 
+	  req.onreadystatechange = function (aEvt) {
+	  	if (req.readyState == 4) {
+	    	if (req.status == 200) {
+					var lines = req.responseText.split('\n');
+					var fields = lines[0].split('\t');
+					for (var i=1; i&lt;lines.length; i++) {
+						var tabs = lines[i].split('\t');
+						var val = {}
+						for (var j=0; j&lt;tabs.length; j++)
+							val[fields[j]] = tabs[j];
+						if (tabs.length > 2) {
+						rdf.add('http://xxxxx.xxxx.xxx/xxxxx/ticket/' + val['ticket'], val);
+						}
+					}
+				}
+	    }
+	  };
+	  req.send(null);
+ 
+	}, false);
+ 
+  </script>
+  <tree id="mytree" flex="1" enableColumnDrag="true" flags="dont-build-content"
+        datasources="rdf:null" ref="urn:root">
+     <template>
+       <rule>
+         <treechildren>
+           <treeitem uri="rdf:*">
+             <treerow>
+               <treecell label="rdf:http://home.netscape.com/NC-rdf#ticket"/>
+               <treecell label="rdf:http://home.netscape.com/NC-rdf#summary" />
+               <treecell label="rdf:http://home.netscape.com/NC-rdf#component" />
+               <treecell label="rdf:http://home.netscape.com/NC-rdf#version" />
+               <treecell label="rdf:http://home.netscape.com/NC-rdf#milestone" />
+               <treecell label="rdf:http://home.netscape.com/NC-rdf#type" />
+               <treecell label="rdf:http://home.netscape.com/NC-rdf#owner" />
+               <treecell label="rdf:http://home.netscape.com/NC-rdf#created" />
+               <treecell label="rdf:http://home.netscape.com/NC-rdf#_changetime" />
+               <treecell label="rdf:http://home.netscape.com/NC-rdf#_description" />
+               <treecell label="rdf:http://home.netscape.com/NC-rdf#_reporter" />
+             </treerow>
+           </treeitem>
+         </treechildren>
+       </rule>
+     </template>
+     <treecols anonid="treecols">
+  	   <treecol id="ticket" label="ticket" flex="1" primary="true"
+	              class="sortDirectionIndicator"
+	              persist="width hidden ordinal"
+	              sort="rdf:http://home.netscape.com/NC-rdf#ticket"
+	              sortActive="true" sortDirection="none"/>
+ 
+	     <treecol id="summary" label="summary" flex="1" primary="true"
+	              class="sortDirectionIndicator"
+	              persist="width hidden ordinal"
+	              sort="rdf:http://home.netscape.com/NC-rdf#summary"
+	              sortActive="true" sortDirection="none"/>
+ 
+	     <treecol id="component" label="component" flex="1"
+	               class="sortDirectionIndicator"
+	               persist="width hidden ordinal"
+	               sort="rdf:http://home.netscape.com/NC-rdf#component"
+	               sortActive="true" sortDirection="none"/>
+ 
+	     <treecol id="version" label="version" flex="1"
+	               class="sortDirectionIndicator"
+	               persist="width hidden ordinal"
+	               sort="rdf:http://home.netscape.com/NC-rdf#version"
+	               sortActive="true" sortDirection="none"/>
+ 
+	     <treecol id="milestone" label="milestone" flex="1"
+	               class="sortDirectionIndicator"
+	               persist="width hidden ordinal"
+	               sort="rdf:http://home.netscape.com/NC-rdf#milestone"
+	               sortActive="true" sortDirection="none"/>
+ 
+	     <treecol id="type" label="type" flex="1"
+	               class="sortDirectionIndicator"
+	               persist="width hidden ordinal"
+	               sort="rdf:http://home.netscape.com/NC-rdf#type"
+	               sortActive="true" sortDirection="none"/>
+ 
+	     <treecol id="owner" label="owner" flex="1"
+	               class="sortDirectionIndicator"
+	               persist="width hidden ordinal"
+	               sort="rdf:http://home.netscape.com/NC-rdf#owner"
+	               sortActive="true" sortDirection="none"/>
+ 
+	     <treecol id="created" label="created" flex="1"
+	               class="sortDirectionIndicator"
+	               persist="width hidden ordinal"
+	               sort="rdf:http://home.netscape.com/NC-rdf#created"
+	               sortActive="true" sortDirection="none"/>
+ 
+	     <treecol id="_reporter" label="reporter" flex="1"
+	               class="sortDirectionIndicator"
+	               persist="width hidden ordinal"
+	               sort="rdf:http://home.netscape.com/NC-rdf#_reporter"
+	               sortActive="true" sortDirection="none"/>
+ 
+     </treecols>
+   </tree>
+</page>
