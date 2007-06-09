@@ -143,19 +143,7 @@
   	               persist="width hidden ordinal"
   	               sort="rdf:http://home.netscape.com/NC-rdf#type"
   	               sortActive="true" sortDirection="none"/>
- 
-  	     <treecol id="owner" label="owner" flex="1"
-  	               class="sortDirectionIndicator"
-  	               persist="width hidden ordinal"
-  	               sort="rdf:http://home.netscape.com/NC-rdf#owner"
-  	               sortActive="true" sortDirection="none"/>
- 
-  	     <treecol id="created" label="created" flex="1"
-  	               class="sortDirectionIndicator"
-  	               persist="width hidden ordinal"
-  	               sort="rdf:http://home.netscape.com/NC-rdf#created"
-  	               sortActive="true" sortDirection="none"/>
- 
+  
   	     <treecol id="_reporter" label="reporter" flex="1"
   	               class="sortDirectionIndicator"
   	               persist="width hidden ordinal"
