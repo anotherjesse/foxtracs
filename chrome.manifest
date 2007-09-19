@@ -1,0 +1,6 @@
+content	foxtracs chrome/content/
+skin	foxtracs classic/1.0	chrome/skin/
+
+overlay chrome://browser/content/browser.xul    chrome://foxtracs/content/browserOverlay.xul
+overlay chrome://global/content/customizeToolbar.xul         chrome://foxtracs/content/customizeToolbarOverlay.xul
+

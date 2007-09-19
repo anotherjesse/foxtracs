@@ -10,7 +10,7 @@
                                .getService(Components.interfaces.mozIJSSubScriptLoader);
 
       var scripts = [
-        'chrome://firetracks/content/trac.js', 
+        'chrome://foxtracs/content/trac.js', 
         ];
 
       for (var i = 0; i < scripts.length; i++) {
