@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<overlay xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" id="firetracks-overlay">
+<overlay xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" id="foxtracs-overlay">
 
   <menupopup id="menu_ToolsPopup">
     <menuitem insertafter="devToolsSeparator" 
               label="Fire Tracks"
               accesskey="F"
-              oncommand="openUILinkIn('chrome://firetracks/content/trac.xul', 'current')" />
+              oncommand="openUILinkIn('chrome://foxtracs/content/trac.xul', 'current')" />
   </menupopup>
 </overlay>
