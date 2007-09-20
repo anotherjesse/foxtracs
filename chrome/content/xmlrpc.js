@@ -1,5 +1,5 @@
 // Ian's quick-n-dirty xmlrpc js library
-// Copyright (c) Ian McKellar 2007, All Rights Reserved
+// Copyright (c) Ian McKellar, Jesse Andrews 2007, All Rights Reserved
 // It's GPLed, bitches
 // reference: http://www.xmlrpc.com/spec
 
@@ -114,7 +114,33 @@ XMLRPC.decode = function (s) {
         }
         return value;
     }
-    // FIXME: implement struct parsing
+
+    if (s.localName == 'struct') {
+        var obj = {};
+        var members = s.getElementsByTagName('member');
+        for (var i=0; i<members.length; i++) {
+            // FIXME: don't rely on ordering!
+            // get the first child that is a node (name)
+            var valnode = members[i].firstChild;
+            while (valnode.nodeType != Node.ELEMENT_NODE) {
+                valnode = valnode.nextSibling;
+            }
+            var name = valnode.textContent;
+
+            // get the next child that is a node (value)
+            valnode = valnode.nextSibling;
+            while (valnode.nodeType != Node.ELEMENT_NODE) {
+                valnode = valnode.nextSibling;
+            }
+            // and then get its child to decode
+            valnode = valnode.firstChild;
+            while (valnode.nodeType != Node.ELEMENT_NODE) {
+                valnode = valnode.nextSibling;
+            }
+            obj[name] = XMLRPC.decode(valnode);
+         }
+         return obj;
+    }
 }
 
 XMLRPC.test = function (jsobj, xmlstring) {
@@ -147,11 +173,11 @@ var tests = [
     [{answer: 42}, '<struct><member><name>answer</name><value><int>42</int></value></member></struct>'],
 ];
 
-/*var success=0;
+var success=0;
 for (var i=0; i<tests.length; i++) {
     if (XMLRPC.test(tests[i][0], tests[i][1])) {
         success++;
     }
 }
 console.log(''+success+' of '+tests.length+' tests passed');
-*/
+
