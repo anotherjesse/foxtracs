@@ -12,6 +12,7 @@
       req.setRequestHeader('Content-Type', 'text/xml');
       req.onreadystatechange = function (aEvt) {
         if (req.readyState == 4 && req.status == 200) {
+          console.log(req.responseText);
           f(req.responseXML);
         }
       }
@@ -40,17 +41,21 @@
     function ticket_info(id) {
       xhrrpc("<?xml version='1.0'?>\n<methodCall><methodName>ticket.get</methodName><params><param><value><i4>"+id+"</i4></value></param></params></methodCall>",
         function(document) {
-          var iterator = document.evaluate('//value', document, null, XPathResult.UNORDERED_NODE_ITERATOR_TYPE, null );
+          var obj = {}
+          var iterator = document.evaluate('//member', document, null, XPathResult.UNORDERED_NODE_ITERATOR_TYPE, null );
           try {
             var thisNode = iterator.iterateNext();
             while (thisNode) {
-              console.log( thisNode.textContent );
+              // console.log( thisNode.textContent );
+              obj[thisNode.getElementsByTagName('name')[0].textContent] = 
+                thisNode.getElementsByTagName('value')[0].textContent;
               thisNode = iterator.iterateNext();
             }
           }
           catch (e) {
             console.log( 'Error: Document tree modified during iteraton ' + e );
           }
+          console.log(obj);
         }
       );
     }
