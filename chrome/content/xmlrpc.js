@@ -119,27 +119,22 @@ XMLRPC.decode = function (s) {
         var obj = {};
         var members = s.getElementsByTagName('member');
         for (var i=0; i<members.length; i++) {
-            // FIXME: don't rely on ordering!
-            // get the first child that is a node (name)
-            var valnode = members[i].firstChild;
-            while (valnode.nodeType != Node.ELEMENT_NODE) {
-                valnode = valnode.nextSibling;
+            var property, value, nodes = members[i].childNodes;
+            for (var j=0; j<nodes.length; j++) {
+                if (nodes[j].localName == 'name') {
+                    property = nodes[j].textContent;
+                }
+                if (nodes[j].localName == 'value') {
+                    var valnode = nodes[j].firstChild;
+                    while (valnode.nodeType != Node.ELEMENT_NODE) {
+                        valnode = valnode.nextSibling;
+                    }
+                    value = XMLRPC.decode(valnode)
+                }
+                obj[property] = value;
             }
-            var name = valnode.textContent;
-
-            // get the next child that is a node (value)
-            valnode = valnode.nextSibling;
-            while (valnode.nodeType != Node.ELEMENT_NODE) {
-                valnode = valnode.nextSibling;
-            }
-            // and then get its child to decode
-            valnode = valnode.firstChild;
-            while (valnode.nodeType != Node.ELEMENT_NODE) {
-                valnode = valnode.nextSibling;
-            }
-            obj[name] = XMLRPC.decode(valnode);
-         }
-         return obj;
+            return obj;
+        }
     }
 }
 
@@ -180,4 +175,3 @@ for (var i=0; i<tests.length; i++) {
     }
 }
 console.log(''+success+' of '+tests.length+' tests passed');
-
