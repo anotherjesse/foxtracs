@@ -147,10 +147,11 @@ var tests = [
     [{answer: 42}, '<struct><member><name>answer</name><value><int>42</int></value></member></struct>'],
 ];
 
-var success=0;
+/*var success=0;
 for (var i=0; i<tests.length; i++) {
     if (XMLRPC.test(tests[i][0], tests[i][1])) {
         success++;
     }
 }
 console.log(''+success+' of '+tests.length+' tests passed');
+*/

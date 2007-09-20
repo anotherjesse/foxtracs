@@ -1,28 +1,62 @@
 <html>
-	<head>
-		<title>trac test</title>
-		<script type="text/javascript" src="xmlrpc.js"></script>
-	</head>
-	<body>
-	<script type="text/javascript">
-		function xhrrpc(txt) {
-			var req = new XMLHttpRequest();
-			var url = 'http://localhost:5000/test/xmlrpc';
-			req.open('POST', url, true);
-			req.setRequestHeader('Content-Type', 'text/xml');
-			req.onreadystatechange = function (aEvt) {
-		//		console.log(req.readyState + ' ' + req.status);
-				if (req.readyState == 4 && req.status == 200) {
-					console.log(req.responseText);
-	//				console.log(req.responseXML);
-				}
-			}
-			req.send(txt);
-		}
+  <head>
+    <title>trac test</title>
+    <script type="text/javascript" src="xmlrpc.js"></script>
+  </head>
+  <body>
+  <script type="text/javascript">
+    function xhrrpc(txt, f) {
+      var req = new XMLHttpRequest();
+      var url = 'http://localhost:5000/trac/xmlrpc';
+      req.open('POST', url, true);
+      req.setRequestHeader('Content-Type', 'text/xml');
+      req.onreadystatechange = function (aEvt) {
+        if (req.readyState == 4 && req.status == 200) {
+          f(req.responseXML);
+        }
+      }
+      req.send(txt);
+    }
 
+    function ticket_list() {
+      xhrrpc("<?xml version='1.0'?>\n<methodCall><methodName>ticket.query</methodName></methodCall>",
+        function ticket_iter(document) {
+          var iterator = document.evaluate('//int', document, null, XPathResult.UNORDERED_NODE_ITERATOR_TYPE, null );
+          try {
+            var thisNode = iterator.iterateNext();
+            while (thisNode) {
+              console.log( 'getting info on ticket ' + thisNode.textContent );
+              ticket_info(thisNode.textContent);
+              thisNode = iterator.iterateNext();
+            }
+          }
+          catch (e) {
+            console.log( 'Error: Document tree modified during iteraton ' + e );
+          }
+        }
+      );
+    }
 
-		xhrrpc("<?xml version='1.0'?>\n<methodCall><methodName>ticket.query</methodName></methodCall>");
-		xhrrpc("<?xml version='1.0'?>\n<methodCall><methodName>ticket.get</methodName><params><param><value><i4>1</i4></value></param></params></methodCall>");
-	</script>
-	</body>
+    function ticket_info(id) {
+      xhrrpc("<?xml version='1.0'?>\n<methodCall><methodName>ticket.get</methodName><params><param><value><i4>"+id+"</i4></value></param></params></methodCall>",
+        function(document) {
+          var iterator = document.evaluate('//value', document, null, XPathResult.UNORDERED_NODE_ITERATOR_TYPE, null );
+          try {
+            var thisNode = iterator.iterateNext();
+            while (thisNode) {
+              console.log( thisNode.textContent );
+              thisNode = iterator.iterateNext();
+            }
+          }
+          catch (e) {
+            console.log( 'Error: Document tree modified during iteraton ' + e );
+          }
+        }
+      );
+    }
+
+    ticket_list();
+
+  </script>
+  </body>
 </html>
