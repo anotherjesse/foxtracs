@@ -1,0 +1,6 @@
+use attachments and canvas to do screencapture and upload to trac via
+
+string ticket.putAttachment(int ticket, string filename, string description, base64 data, boolean replace=True)
+
+
+

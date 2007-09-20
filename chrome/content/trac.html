@@ -1,0 +1,28 @@
+<html>
+	<head>
+		<title>trac test</title>
+		<script type="text/javascript" src="xmlrpc.js"></script>
+	</head>
+	<body>
+	<script type="text/javascript">
+		function xhrrpc(txt) {
+			var req = new XMLHttpRequest();
+			var url = 'http://localhost:5000/test/xmlrpc';
+			req.open('POST', url, true);
+			req.setRequestHeader('Content-Type', 'text/xml');
+			req.onreadystatechange = function (aEvt) {
+		//		console.log(req.readyState + ' ' + req.status);
+				if (req.readyState == 4 && req.status == 200) {
+					console.log(req.responseText);
+	//				console.log(req.responseXML);
+				}
+			}
+			req.send(txt);
+		}
+
+
+		xhrrpc("<?xml version='1.0'?>\n<methodCall><methodName>ticket.query</methodName></methodCall>");
+		xhrrpc("<?xml version='1.0'?>\n<methodCall><methodName>ticket.get</methodName><params><param><value><i4>1</i4></value></param></params></methodCall>");
+	</script>
+	</body>
+</html>
