@@ -155,23 +155,26 @@ XMLRPC.test = function (jsobj, xmlstring) {
     return true;
 }
 
-var tests = [
-    [0,'<int>0</int>'],
-    [1,'<int>1</int>'],
-    [1.5,'<double>1.5</double>'],
-    ['hello world','<string>hello world</string>'],
-    ['', '<string></string>'],
-    [false, '<boolean>0</boolean>'],
-    [true, '<boolean>1</boolean>'],
-    [[1,2,3], '<array><value><int>1</int></value><value><int>2</int></value><value><int>3</int></value></array>'],
-    [[1,'hello world',3], '<array><value><int>1</int></value><value><string>hello world</string></value><value><int>3</int></value></array>'],
-    [{answer: 42}, '<struct><member><name>answer</name><value><int>42</int></value></member></struct>'],
-];
 
-var success=0;
-for (var i=0; i<tests.length; i++) {
-    if (XMLRPC.test(tests[i][0], tests[i][1])) {
-        success++;
+XMLRPC.run_tests = function() {
+    var tests = [
+        [0,'<int>0</int>'],
+        [1,'<int>1</int>'],
+        [1.5,'<double>1.5</double>'],
+        ['hello world','<string>hello world</string>'],
+        ['', '<string></string>'],
+        [false, '<boolean>0</boolean>'],
+        [true, '<boolean>1</boolean>'],
+        [[1,2,3], '<array><value><int>1</int></value><value><int>2</int></value><value><int>3</int></value></array>'],
+        [[1,'hello world',3], '<array><value><int>1</int></value><value><string>hello world</string></value><value><int>3</int></value></array>'],
+        [{answer: 42}, '<struct><member><name>answer</name><value><int>42</int></value></member></struct>'],
+    ];
+
+    var success=0;
+    for (var i=0; i<tests.length; i++) {
+        if (XMLRPC.test(tests[i][0], tests[i][1])) {
+            success++;
+        }
     }
+    console.log(''+success+' of '+tests.length+' tests passed');
 }
-console.log(''+success+' of '+tests.length+' tests passed');
