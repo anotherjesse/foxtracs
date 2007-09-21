@@ -20,21 +20,15 @@
       req.setRequestHeader('Content-Type', 'text/xml');
       req.onreadystatechange = function (aEvt) {
         if (req.readyState == 4 && req.status == 200) {
-          if (callback !== undefined) {
-            callback(req);
-          }
-          else {
-            console.log(req.responseText);
-          }
+          var value = req.responseXML.getElementsByTagName('value')[0];
+          callback(XMLRPC.decode(getFirstRealChild(value)));
         }
       }
       req.send(post);
     }
 
     function ticket_list() {
-      xhrrpc('ticket.query', null, function(req) {
-        var value = req.responseXML.getElementsByTagName('value')[0];
-        var tickets = XMLRPC.decode(getFirstRealChild(value));
+      xhrrpc('ticket.query', null, function(tickets) {
         console.log(tickets);
         for (var i=0; i<tickets.length; i++) {
           ticket_get(tickets[i]);
@@ -43,9 +37,7 @@
     }
 
     function ticket_get(id) {
-      xhrrpc('ticket.get', id, function(req) {
-        var value = req.responseXML.getElementsByTagName('value')[0];
-        var info = XMLRPC.decode(getFirstRealChild(value));
+      xhrrpc('ticket.get', id, function(info) {
         console.log(info);
       });
     }
