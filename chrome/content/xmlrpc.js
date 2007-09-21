@@ -16,6 +16,30 @@
 // TODO:
 //  * implement datetime & base64 - can be done as extensions
 
+function getChildrenByTagName(xml, name) {
+    var nodes = [];
+    var child = xml.firstChild;
+
+    while (child) {
+        if (child.localName == name) {
+            nodes.push(child);
+        }
+        child = child.nextSibling;
+    }
+
+    return nodes;
+}
+
+function getFirstRealChild(xml) {
+    var child = xml.firstChild;
+
+    while (child && child.nodeType != Node.ELEMENT_NODE) {
+        child = child.nextSibling;
+    }
+
+    return child;
+}
+
 
 var XMLRPC = {};
 
@@ -60,14 +84,14 @@ XMLRPC.encode = function (o) {
 
     // compound types
     if (constr == 'Array') {
-        var value = '<array>';
+        var value = '<array><data>';
         for (var i=0; i<o.length; i++) {
             var v = XMLRPC.encode(o[i]);
             if (v) {
                 value = value + '<value>'+v+'</value>';
             }
         }
-        value = value + '</array>';
+        value = value + '</data></array>';
         return value;
     }
     if (to == 'object') {
@@ -103,53 +127,41 @@ XMLRPC.decode = function (s) {
 
     // compounds
     if (s.localName == 'array') {
-        var value = [];
-        var values = s.getElementsByTagName('value');
+        var val_array = [];
+        var data = getChildrenByTagName(s, 'data')[0];
+        var values = getChildrenByTagName(data, 'value');
         for (var i=0; i<values.length; i++) {
-            var valnode = values[i].firstChild;
-            while (valnode.nodeType != Node.ELEMENT_NODE) {
-                valnode = valnode.nextSibling;
-            }
-            value.push(XMLRPC.decode(valnode));
+            val_array.push(XMLRPC.decode(getFirstRealChild(values[i])));
         }
-        return value;
+        return val_array;
     }
 
     if (s.localName == 'struct') {
         var obj = {};
-        var members = s.getElementsByTagName('member');
+        var members = getChildrenByTagName(s, 'member');
         for (var i=0; i<members.length; i++) {
-            var property, value, nodes = members[i].childNodes;
-            for (var j=0; j<nodes.length; j++) {
-                if (nodes[j].localName == 'name') {
-                    property = nodes[j].textContent;
-                }
-                if (nodes[j].localName == 'value') {
-                    var valnode = nodes[j].firstChild;
-                    while (valnode.nodeType != Node.ELEMENT_NODE) {
-                        valnode = valnode.nextSibling;
-                    }
-                    value = XMLRPC.decode(valnode)
-                }
-                obj[property] = value;
-            }
-            return obj;
+            var property = getChildrenByTagName(members[i], 'name')[0].textContent;
+            var valnode = getChildrenByTagName(members[i], 'value')[0];
+            var value = XMLRPC.decode(getFirstRealChild(valnode));;
+            obj[property] = value;
         }
+        return obj;
     }
 }
 
 XMLRPC.test = function (jsobj, xmlstring) {
     // try to round-trip
-    console.log('testing '+jsobj.toSource()+' with '+xmlstring);
+    console.log(['testing', jsobj, 'with', xmlstring]);
     var encoded = XMLRPC.encode(jsobj);
     if (encoded != xmlstring) {
-        console.log(' encoded to: '+encoded);
+        console.log(['encoded to:', encoded]);
         return false;
     }
     var doc = (new DOMParser()).parseFromString(encoded, "text/xml");
-    var reencoded = XMLRPC.encode(XMLRPC.decode(doc.documentElement));
+    var decoded = XMLRPC.decode(doc.documentElement);
+    var reencoded = XMLRPC.encode(decoded);
     if (reencoded != xmlstring) {
-        console.log(' re-encoded to: '+reencoded);
+        console.log(['re-encoded to:', reencoded]);
         return false;
     }
     return true;
@@ -165,9 +177,10 @@ XMLRPC.run_tests = function() {
         ['', '<string></string>'],
         [false, '<boolean>0</boolean>'],
         [true, '<boolean>1</boolean>'],
-        [[1,2,3], '<array><value><int>1</int></value><value><int>2</int></value><value><int>3</int></value></array>'],
-        [[1,'hello world',3], '<array><value><int>1</int></value><value><string>hello world</string></value><value><int>3</int></value></array>'],
-        [{answer: 42}, '<struct><member><name>answer</name><value><int>42</int></value></member></struct>'],
+        [[1,2,3], '<array><data><value><int>1</int></value><value><int>2</int></value><value><int>3</int></value></data></array>'],
+        [[1,'hello world',3], '<array><data><value><int>1</int></value><value><string>hello world</string></value><value><int>3</int></value></data></array>'],
+        [{answer: 42, question: 'life'}, '<struct><member><name>answer</name><value><int>42</int></value></member><member><name>question</name><value><string>life</string></value></member></struct>'],
+        [[1,'hello world',{answer:42}], '<array><data><value><int>1</int></value><value><string>hello world</string></value><value><struct><member><name>answer</name><value><int>42</int></value></member></struct></value></data></array>'],
     ];
 
     var success=0;
@@ -176,5 +189,7 @@ XMLRPC.run_tests = function() {
             success++;
         }
     }
-    console.log(''+success+' of '+tests.length+' tests passed');
+    console.log(success+' of '+tests.length+' tests passed');
 }
+
+// XMLRPC.run_tests();
