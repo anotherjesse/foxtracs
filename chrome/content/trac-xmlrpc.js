@@ -74,6 +74,9 @@ function Tracker() {
     xhrrpc('ticket.query', null, function(tickets) {
       for (var i=0; i<tickets.length; i++) {
         xhrrpc('ticket.get', tickets[i], function(info) {
+          info[3].id = info[0];
+          info[3].created = info[1];
+          info[3].changed = info[2];
           rdf.add('ticket:'+info[0], info[3]);
         });
       }

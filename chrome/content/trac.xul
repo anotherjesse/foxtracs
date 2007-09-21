@@ -53,7 +53,7 @@
            <treechildren>
              <treeitem uri="rdf:*">
                <treerow>
-                 <treecell label="rdf:http://home.netscape.com/NC-rdf#ticket"/>
+                 <treecell label="rdf:http://home.netscape.com/NC-rdf#id"/>
                  <treecell label="rdf:http://home.netscape.com/NC-rdf#summary" />
                  <treecell label="rdf:http://home.netscape.com/NC-rdf#component" />
                  <treecell label="rdf:http://home.netscape.com/NC-rdf#version" />
@@ -61,19 +61,19 @@
                  <treecell label="rdf:http://home.netscape.com/NC-rdf#type" />
                  <treecell label="rdf:http://home.netscape.com/NC-rdf#owner" />
                  <treecell label="rdf:http://home.netscape.com/NC-rdf#created" />
-                 <treecell label="rdf:http://home.netscape.com/NC-rdf#_changetime" />
-                 <treecell label="rdf:http://home.netscape.com/NC-rdf#_description" />
-                 <treecell label="rdf:http://home.netscape.com/NC-rdf#_reporter" />
+                 <treecell label="rdf:http://home.netscape.com/NC-rdf#changed" />
+                 <treecell label="rdf:http://home.netscape.com/NC-rdf#description" />
+                 <treecell label="rdf:http://home.netscape.com/NC-rdf#reporter" />
                </treerow>
              </treeitem>
            </treechildren>
          </rule>
        </template>
        <treecols anonid="treecols">
-         <treecol id="ticket" label="ticket" flex="1" primary="true"
+         <treecol id="id" label="id" flex="1" primary="true"
                   class="sortDirectionIndicator"
                   persist="width hidden ordinal"
-                  sort="rdf:http://home.netscape.com/NC-rdf#ticket"
+                  sort="rdf:http://home.netscape.com/NC-rdf#id"
                   sortActive="true" sortDirection="none"/>
 
          <treecol id="summary" label="summary" flex="1" primary="true"
@@ -106,10 +106,34 @@
                    sort="rdf:http://home.netscape.com/NC-rdf#type"
                    sortActive="true" sortDirection="none"/>
 
-         <treecol id="_reporter" label="reporter" flex="1"
+         <treecol id="owner" label="owner" flex="1"
                    class="sortDirectionIndicator"
                    persist="width hidden ordinal"
-                   sort="rdf:http://home.netscape.com/NC-rdf#_reporter"
+                   sort="rdf:http://home.netscape.com/NC-rdf#owner"
+                   sortActive="true" sortDirection="none"/>
+
+         <treecol id="created" label="created" flex="1"
+                   class="sortDirectionIndicator"
+                   persist="width hidden ordinal"
+                   sort="rdf:http://home.netscape.com/NC-rdf#created"
+                   sortActive="true" sortDirection="none"/>
+
+         <treecol id="changed" label="changed" flex="1"
+                   class="sortDirectionIndicator"
+                   persist="width hidden ordinal"
+                   sort="rdf:http://home.netscape.com/NC-rdf#changed"
+                   sortActive="true" sortDirection="none"/>
+
+         <treecol id="description" label="description" flex="1"
+                   class="sortDirectionIndicator"
+                   persist="width hidden ordinal"
+                   sort="rdf:http://home.netscape.com/NC-rdf#description"
+                   sortActive="true" sortDirection="none"/>
+
+         <treecol id="reporter" label="reporter" flex="1"
+                   class="sortDirectionIndicator"
+                   persist="width hidden ordinal"
+                   sort="rdf:http://home.netscape.com/NC-rdf#reporter"
                    sortActive="true" sortDirection="none"/>
 
        </treecols>
