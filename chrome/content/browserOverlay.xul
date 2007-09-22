@@ -12,9 +12,9 @@
   </menupopup>
 
   <toolbarpalette id="BrowserToolbarPalette">
-    <toolbarbutton id="firetracs-toolbarbutton"
-      label="Fire Tracs"
-      tooltiptext="Show Fire Tracs"
+    <toolbarbutton id="foxtracs-toolbarbutton"
+      label="Fox Tracs"
+      tooltiptext="Show Trac Tickets"
       oncommand="openUILinkIn('chrome://foxtracs/content/trac.xul', 'current')"
       class="toolbarbutton-1 chromeclass-toolbar-additional custombutton"
       />
