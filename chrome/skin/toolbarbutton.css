@@ -1,0 +1,8 @@
+#foxtracs-toolbarbutton {
+    list-style-image: url("firetracs.png");
+    -moz-image-region: rect( 0px 24px 24px  0px);
+}
+
+#foxtracs-toolbarbutton:hover {
+    -moz-image-region: rect(24px 24px 48px  0px);
+}

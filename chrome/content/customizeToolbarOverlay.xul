@@ -1,0 +1,5 @@
+<?xml-stylesheet href="chrome://foxtracs/skin/toolbarbutton.css"?>
+
+<overlay id="foxTracsOverlay"
+         xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+</overlay>
