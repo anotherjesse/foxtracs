@@ -35,7 +35,7 @@ function Tracker() {
     const RDFCU = Cc['@mozilla.org/rdf/container-utils;1'].getService(Ci.nsIRDFContainerUtils);
     const NSRDF = function(name) { return RDFS.GetResource('http://home.netscape.com/NC-rdf#'+name); }
 
-    var ds = RDFS.GetDataSource('rdf:s3', false);
+    var ds = RDFS.GetDataSource('rdf:trac', false);
     var bag = RDFCU.MakeBag(ds, RDFS.GetResource("urn:root"));
 
     this.add = function( uri, val ) {
