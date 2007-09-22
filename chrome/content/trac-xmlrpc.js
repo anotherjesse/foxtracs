@@ -2,17 +2,23 @@
 function Tracker() {
   var inst=this;
   var $ = function(x) { return document.getElementById(x) };
-  var CC = Components.classes;
-  var CI = Components.interfaces;
-  const RDFS = CC['@mozilla.org/rdf/rdf-service;1'].getService(CI.nsIRDFService);
-  const RDFCU = CC['@mozilla.org/rdf/container-utils;1'].getService(CI.nsIRDFContainerUtils);
-  const NSRDF = function(name) { return RDFS.GetResource('http://home.netscape.com/NC-rdf#'+name); }
-  var PREFS = CC['@mozilla.org/preferences-service;1'].getService(CI.nsIPrefService).getBranch('extension.foxtracs.');
+  const Cc = Components.classes;
+  const Ci = Components.interfaces;
+  var PREFS = Cc['@mozilla.org/preferences-service;1'].getService(Ci.nsIPrefService).getBranch('extension.foxtracs.');
 
   function xhrrpc(method, params, callback) {
     var req = new XMLHttpRequest();
     var base_url = PREFS.getCharPref('baseUrl');
     var url = base_url + '/xmlrpc'
+
+    req.open('POST', url, true);
+    req.onreadystatechange = function (aEvt) {
+      if (req.readyState == 4 && req.status == 200) {
+        var value = req.responseXML.getElementsByTagName('value')[0];
+        callback(XMLRPC.decode(getFirstRealChild(value)));
+      }
+    }
+    req.setRequestHeader('Content-Type', 'text/xml');
 
     var post = "<?xml version='1.0'?>\n<methodCall>";
     post += "<methodName>" + method + "</methodName>";
@@ -21,34 +27,31 @@ function Tracker() {
     }
     post += "</methodCall>";
 
-    req.open('POST', url, true);
-    req.setRequestHeader('Content-Type', 'text/xml');
-    req.onreadystatechange = function (aEvt) {
-      if (req.readyState == 4 && req.status == 200) {
-        var value = req.responseXML.getElementsByTagName('value')[0];
-        callback(XMLRPC.decode(getFirstRealChild(value)));
-      }
-    }
     req.send(post);
   }
 
   function RDF() {
-    var inst=this;
+    const RDFS = Cc['@mozilla.org/rdf/rdf-service;1'].getService(Ci.nsIRDFService);
+    const RDFCU = Cc['@mozilla.org/rdf/container-utils;1'].getService(Ci.nsIRDFContainerUtils);
+    const NSRDF = function(name) { return RDFS.GetResource('http://home.netscape.com/NC-rdf#'+name); }
 
-    this.ds = Components.classes['@mozilla.org/rdf/datasource;1?name=in-memory-datasource']
-                        .createInstance(CI.nsIRDFDataSource);
-
-    this.bag = RDFCU.MakeBag(this.ds, RDFS.GetResource("urn:root"));
+    var ds = RDFS.GetDataSource('rdf:s3', false);
+    var bag = RDFCU.MakeBag(ds, RDFS.GetResource("urn:root"));
 
     this.add = function( uri, val ) {
       var resource = RDFS.GetResource(uri);
       for (var k in val) {
-        inst.ds.Assert(resource, NSRDF(k), RDFS.GetLiteral(val[k]), true);
+        ds.Assert(resource, NSRDF(k), RDFS.GetLiteral(val[k]), true);
       }
-      inst.bag.AppendElement(resource);
+      bag.AppendElement(resource);
+    }
+
+    this.showOn = function(element) {
+      element.database.AddDataSource(ds);
+      element.builder.rebuild();
     }
   }
-  
+
   this.init = function() {
     if (PREFS.getPrefType('baseUrl')) {
       inst.load();
@@ -66,10 +69,8 @@ function Tracker() {
   this.load = function() {
     var rdf = new RDF();
 
-    $('mytree').database.AddDataSource(rdf.ds);
-    $('mytree').builder.rebuild();
-    $('mylist').database.AddDataSource(rdf.ds);
-    $('mylist').builder.rebuild();
+    rdf.showOn($('mytree'))
+    rdf.showOn($('mylist'))
 
     xhrrpc('ticket.query', null, function(tickets) {
       for (var i=0; i<tickets.length; i++) {
@@ -81,14 +82,12 @@ function Tracker() {
         });
       }
     });
-            // rdf.add(base_url+'/ticket/' + val['ticket'], val);
     inst.list();
   }
   this.setup = function() {
     if (PREFS.getPrefType('baseUrl')) {
       $('trac-url').value = PREFS.getCharPref('baseUrl');
     }
-    
     $('trac-deck').selectedIndex = 0;
   }
   this.list = function() {
