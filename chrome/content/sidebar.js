@@ -40,26 +40,23 @@ function Tracker() {
     // });
 
     xhrrpc(inst.url(), 'ticket.query', function(tickets) {
-      for (var i=0; i<tickets.length; i++) {
+      tickets.forEach(function(ticketId) {
         xhrrpc(inst.url(), 'ticket.get', function(info) {
           info[3].id = info[0];
           info[3].created = info[1];
           info[3].changed = info[2];
           rdf.tickets.add('ticket:'+info[0], info[3]);
-        }, tickets[i]);
-      }
+        }, ticketId);
+      });
     });
 
     xhrrpc(inst.url(), 'wiki.getAllPages', function(pages) {
-      for (var i=0; i<pages.length; i++) {
+      pages.forEach(function(pageId) {
         xhrrpc(inst.url(), 'wiki.getPageInfo', function(info) {
           console.log(info);
-          // info[3].id = info[0];
-          // info[3].created = info[1];
-          // info[3].changed = info[2];
-          // rdf.pages.add('page:'+info[0], info[3]);
-        }, pages[i]);
-      }
+          rdf.pages.add('page:'+pageId, info);
+        }, pageId);
+      });
     });
 
     inst.tickets();

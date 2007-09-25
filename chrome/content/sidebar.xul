@@ -11,6 +11,7 @@
                                .getService(Components.interfaces.mozIJSSubScriptLoader);
 
       var scripts = [
+        'chrome://foxtracs/content/iso8601.js',
         'chrome://foxtracs/content/xmlrpc.js',
         'chrome://foxtracs/content/trac-xmlrpc.js',
         'chrome://foxtracs/content/trac-rdf.js',
@@ -58,7 +59,7 @@
       <template>
         <rule>
           <hbox uri="rdf:*">
-            <label value="rdf:http://home.netscape.com/NC-rdf#summary" class="text-link" />
+            <label value="rdf:http://home.netscape.com/NC-rdf#name" class="text-link" />
           </hbox>
         </rule>
       </template>

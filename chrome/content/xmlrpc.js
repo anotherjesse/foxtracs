@@ -93,6 +93,10 @@ XMLRPC.encode = function (o) {
         return '<string>'+XMLRPC.xmlencode(o)+'</string>';
     }
 
+    if (constr == 'Date') {
+        return '<dateTime.iso8601>'+ISO8601DateUtils.create(o)+'</dateTime.iso8601>';
+    }
+
     // compound types
     if (constr == 'Array') {
         var value = '<array><data>';
@@ -134,6 +138,9 @@ XMLRPC.decode = function (s) {
     }
     if (s.localName == 'boolean') {
         return parseInt(s.textContent) != 0;
+    }
+    if (s.localName == 'dateTime.iso8601') {
+        return ISO8601DateUtils.parse(s.textContent);
     }
 
     // compounds
