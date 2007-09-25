@@ -50,6 +50,7 @@
         <rule>
           <hbox uri="rdf:*">
             <checkbox />
+	    <label value="rdf:http://home.netscape.com/NC-rdf#id" />
             <label value="rdf:http://home.netscape.com/NC-rdf#summary" class="text-link" />
           </hbox>
         </rule>

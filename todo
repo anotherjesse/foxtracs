@@ -1,6 +1,8 @@
-use attachments and canvas to do screencapture and upload to trac via
-
-string ticket.putAttachment(int ticket, string filename, string description, base64 data, boolean replace=True)
-
-
-
+[ ] support xmlrpc auth
+[ ] tooltip (xbl) of a ticket / page
+[ ] support multiple instances of tracs
+[ ] add a ticket
+[ ] add a page
+[ ] periodic refreshing
+[ ] use attachments and canvas to do screencapture and upload to trac via
+[ ] filtering of tickets in the sidebar

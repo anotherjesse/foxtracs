@@ -53,7 +53,6 @@ function Tracker() {
     xhrrpc(inst.url(), 'wiki.getAllPages', function(pages) {
       pages.forEach(function(pageId) {
         xhrrpc(inst.url(), 'wiki.getPageInfo', function(info) {
-          console.log(info);
           rdf.pages.add('page:'+pageId, info);
         }, pageId);
       });
