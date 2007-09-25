@@ -28,7 +28,7 @@
               <xul:label value="jesse" anonid="reporter" />
               <xul:spacer width="10" />
               <xul:label value="Assigned to:" class="label" />
-              <xul:label value="somebody" anonid="assigned" />
+              <xul:label value="somebody" anonid="owner" />
             </xul:row>
             <xul:row>
               <xul:label value="Priority:" class="label" />
@@ -51,11 +51,33 @@
     <handlers>
     </handlers>
     <implementation>
+      <constructor><![CDATA[
+        const Cc = Components.classes;
+        const Ci = Components.interfaces;
+        const RDFS = Cc['@mozilla.org/rdf/rdf-service;1'].getService(Ci.nsIRDFService);
+        const NSRDF = function(name) { return RDFS.GetResource('http://home.netscape.com/NC-rdf#'+name); }
+        var ds = RDFS.GetDataSource('rdf:trac', false);
+
+        this.wrap = function(urn) {
+          var resource = RDFS.GetResource(urn);
+          return function(property) {
+            var target = ds.GetTarget(resource, NSRDF(property), true); 
+            if (target instanceof Components.interfaces.nsIRDFLiteral) {
+              return target.Value;
+            }
+          }
+	}
+      ]]></constructor>
       <method name="update">
         <parameter name="urn"/>
-        <body><![CDATA[
-          var summary = document.getAnonymousElementByAttribute(this, 'anonid', 'summary');
-          summary.setAttribute('value', urn);
+	<body><![CDATA[
+          var inst=this;
+          var ticket = this.wrap(urn);
+	  ['reporter', 'owner', 'priority', 'milestone', 'component', 'version', 'summary'].forEach( function(field) {
+	    var value = ticket(field) || '';
+            var xul = document.getAnonymousElementByAttribute(inst, 'anonid', field);
+            xul.setAttribute('value', value);
+	  });
         ]]></body>
       </method>
     </implementation>
