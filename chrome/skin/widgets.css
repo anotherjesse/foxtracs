@@ -14,3 +14,7 @@ grid[anonid=details] {
 grid[anonid=details] row {
   padding: 5px 2px;
 }
+
+textbox {
+  background: transparent;
+}

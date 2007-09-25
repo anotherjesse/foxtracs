@@ -1,6 +1,5 @@
 <bindings xmlns="http://www.mozilla.org/xbl"
           xmlns:html="http://www.w3.org/1999/xhtml"
-          xmlns:xbl="http://www.mozilla.org/xbl"
           xmlns:xul="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 
   <binding id="ticket">
@@ -46,7 +45,7 @@
             </xul:row>
           </xul:rows>
         </xul:grid>
-	<xul:textbox class="plain" multiline="true" readonly="true" value="asdf" anonid="description" 
+        <xul:textbox class="plain" multiline="true" readonly="true" anonid="description"
                      onoverflow="this.height = this.inputField.scrollHeight;" />
       </xul:vbox>
     </content>
@@ -63,23 +62,26 @@
         this.wrap = function(urn) {
           var resource = RDFS.GetResource(urn);
           return function(property) {
-            var target = ds.GetTarget(resource, NSRDF(property), true); 
+            var target = ds.GetTarget(resource, NSRDF(property), true);
             if (target instanceof Components.interfaces.nsIRDFLiteral) {
               return target.Value;
             }
           }
-	}
+        }
       ]]></constructor>
+      <destructor><![CDATA[
+        this.wrap = null;
+      ]]></destructor>
       <method name="update">
         <parameter name="urn"/>
-	<body><![CDATA[
+        <body><![CDATA[
           var inst=this;
           var ticket = this.wrap(urn);
-	  ['reporter', 'owner', 'priority', 'milestone', 'component', 'version', 'summary', 'description', 'id'].forEach( function(field) {
-	    var value = ticket(field) || '';
+          ['reporter', 'owner', 'priority', 'milestone', 'component', 'version', 'summary', 'description', 'id'].forEach( function(field) {
+            var value = ticket(field) || '';
             var xul = document.getAnonymousElementByAttribute(inst, 'anonid', field);
             xul.setAttribute('value', value);
-	  });
+          });
         ]]></body>
       </method>
     </implementation>
