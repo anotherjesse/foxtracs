@@ -1,0 +1,16 @@
+label[anonid=summary] {
+  font-size: 125%;
+}
+
+label.label {
+  font-size: 80%;
+  color: #aaa;
+}
+
+grid[anonid=details] {
+  border-top: 1px solid #888;
+}
+
+grid[anonid=details] row {
+  padding: 5px 2px;
+}

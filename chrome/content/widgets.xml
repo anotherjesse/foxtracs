@@ -1,0 +1,81 @@
+<bindings xmlns="http://www.mozilla.org/xbl"
+          xmlns:html="http://www.w3.org/1999/xhtml"
+          xmlns:xbl="http://www.mozilla.org/xbl"
+          xmlns:xul="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+  <binding id="ticket">
+    <resources>
+      <stylesheet src="chrome://foxtracs/skin/widgets.css"/>
+    </resources>
+    <content>
+      <xul:vbox>
+        <xul:hbox>
+          <xul:label value="summary is here" anonid="summary" />
+          <xul:spacer flex="1" />
+          <xul:label value="#3" anonid="number" />
+        </xul:hbox>
+        <xul:grid anonid="details">
+          <xul:columns>
+            <xul:column flex="1" />
+            <xul:column flex="3" />
+            <xul:column />
+            <xul:column flex="1" />
+            <xul:column flex="3" />
+          </xul:columns>
+          <xul:rows>
+            <xul:row>
+              <xul:label value="Reporter:" class="label" />
+              <xul:label value="jesse" anonid="reporter" />
+              <xul:spacer width="10" />
+              <xul:label value="Assigned to:" class="label" />
+              <xul:label value="somebody" anonid="assigned" />
+            </xul:row>
+            <xul:row>
+              <xul:label value="Priority:" class="label" />
+              <xul:label value="major" anonid="priority" />
+              <xul:spacer width="10" />
+              <xul:label value="Milestone:" class="label" />
+              <xul:label value="Public Beta" anonid="milestone" />
+            </xul:row>
+            <xul:row>
+              <xul:label value="Component:" class="label" />
+              <xul:label value="Backend" anonid="component" />
+              <xul:spacer width="10" />
+              <xul:label value="Version:" class="label" />
+              <xul:label value="" anonid="version" />
+            </xul:row>
+          </xul:rows>
+        </xul:grid>
+      </xul:vbox>
+    </content>
+    <handlers>
+    </handlers>
+    <implementation>
+      <method name="update">
+        <parameter name="urn"/>
+        <body><![CDATA[
+          var summary = document.getAnonymousElementByAttribute(this, 'anonid', 'summary');
+          summary.setAttribute('value', urn);
+        ]]></body>
+      </method>
+    </implementation>
+  </binding>
+
+  <binding id="wikiPage">
+    <resources>
+      <stylesheet src="chrome://foxtracs/skin/widgets.css"/>
+    </resources>
+    <content>
+      <label value="fixme" />
+    </content>
+    <handlers>
+    </handlers>
+    <implementation>
+      <constructor>
+      </constructor>
+      <destructor>
+      </destructor>
+    </implementation>
+  </binding>
+</bindings>
+

@@ -18,3 +18,11 @@
   display: none;
 }
 
+ticket {
+  -moz-binding: url(chrome://foxtracs/content/widgets.xml#ticket);
+}
+
+wikiPage {
+  -moz-binding: url(chrome://foxtracs/content/widgets.xml#wikiPage);
+}
+

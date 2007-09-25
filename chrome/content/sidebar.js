@@ -27,9 +27,6 @@ function Tracker() {
   this.load = function() {
     var rdf = new RDF();
 
-    rdf.showOn($('tickets'))
-    rdf.showOn($('pages'))
-
     // xhrrpc('ticket.create', function(result) {
     //   console.log(result);
     // }, 'summary is here', 'description is here', {type: "task"} );

@@ -26,6 +26,10 @@
     window.addEventListener("load", loadJS, false);
   ]]></script>
 
+  <tooltip id="tooltiptest" onpopupshowing="document.getElementById('ticket-tooltip').update(document.tooltipNode.parentNode.id)">
+    <ticket id="ticket-tooltip" />
+  </tooltip>
+
   <toolbox class="plain">
     <toolbar id="foxtracs-toolbar">
       <toolbarbutton class="toolbarbutton-1" id="trac-refresh" 
@@ -35,7 +39,7 @@
       <toolbarbutton class="toolbarbutton-1" id="trac-pages" 
                      label="Wiki" oncommand="tracker.pages()" />
       <spacer flex="1"/>
-      <toolbarbutton class="toolbarbutton-1" id="trac-setup"
+      <toolbarbutton class="toolbarbutton-1" id="trac-setup" 
                      label="Setup" oncommand="tracker.setup()" />
     </toolbar>
   </toolbox>
@@ -45,18 +49,18 @@
       <textbox id="trac-url" />
       <button label="go" oncommand="tracker.save()" />
     </vbox>
-    <vbox id="tickets" flex="1" flags="dont-build-content" datasources="rdf:null" ref="urn:tickets" style="overflow: auto">
+    <vbox id="tickets" flex="1" flags="dont-build-content" datasources="rdf:trac" ref="urn:tickets" style="overflow: auto">
       <template>
         <rule>
           <hbox uri="rdf:*">
             <checkbox />
 	    <label value="rdf:http://home.netscape.com/NC-rdf#id" />
-            <label value="rdf:http://home.netscape.com/NC-rdf#summary" class="text-link" />
+	    <label value="rdf:http://home.netscape.com/NC-rdf#summary" class="text-link" tooltip="tooltiptest" />
           </hbox>
         </rule>
       </template>
     </vbox>
-    <vbox id="pages" flex="1" flags="dont-build-content" datasources="rdf:null" ref="urn:pages" style="overflow: auto">
+    <vbox id="pages" flex="1" flags="dont-build-content" datasources="rdf:trac" ref="urn:pages" style="overflow: auto">
       <template>
         <rule>
           <hbox uri="rdf:*">

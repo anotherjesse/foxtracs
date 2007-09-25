@@ -22,10 +22,5 @@ function RDF() {
 
   this.tickets = new Bag('urn:tickets');
   this.pages = new Bag('urn:pages');
-
-  this.showOn = function(element) {
-    element.database.AddDataSource(ds);
-    element.builder.rebuild();
-  }
 }
 
