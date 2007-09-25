@@ -12,7 +12,7 @@
         <xul:hbox>
           <xul:label value="summary is here" anonid="summary" />
           <xul:spacer flex="1" />
-          <xul:label value="#3" anonid="number" />
+          <xul:label value="#3" anonid="id" />
         </xul:hbox>
         <xul:grid anonid="details">
           <xul:columns>
@@ -46,6 +46,8 @@
             </xul:row>
           </xul:rows>
         </xul:grid>
+	<xul:textbox class="plain" multiline="true" readonly="true" value="asdf" anonid="description" 
+                     onoverflow="this.height = this.inputField.scrollHeight;" />
       </xul:vbox>
     </content>
     <handlers>
@@ -73,7 +75,7 @@
 	<body><![CDATA[
           var inst=this;
           var ticket = this.wrap(urn);
-	  ['reporter', 'owner', 'priority', 'milestone', 'component', 'version', 'summary'].forEach( function(field) {
+	  ['reporter', 'owner', 'priority', 'milestone', 'component', 'version', 'summary', 'description', 'id'].forEach( function(field) {
 	    var value = ticket(field) || '';
             var xul = document.getAnonymousElementByAttribute(inst, 'anonid', field);
             xul.setAttribute('value', value);
