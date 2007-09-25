@@ -4,18 +4,27 @@
 
 <overlay xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" id="foxtracs-overlay">
 
-  <menupopup id="menu_ToolsPopup">
-    <menuitem insertafter="devToolsSeparator" 
-              label="Fire Tracks"
-              accesskey="F"
-              oncommand="openUILinkIn('chrome://foxtracs/content/trac.xul', 'current')" />
+  <broadcasterset id="mainBroadcasterSet">
+    <broadcaster id="foxtracsBroadcaster"
+                 autoCheck="false"
+                 label="Fox Tracs"
+                 tooltiptext="Trac Sidebar"
+                 type="checkbox"
+                 group="sidebar"
+                 sidebarurl="chrome://foxtracs/content/sidebar.xul"
+                 sidebartitle="Fox Tracs"
+                 oncommand="toggleSidebar('foxtracsBroadcaster')" />
+  </broadcasterset>
+
+  <menupopup id="viewSidebarMenu">
+	  <menuitem observes="foxtracsBroadcaster" />
   </menupopup>
 
   <toolbarpalette id="BrowserToolbarPalette">
     <toolbarbutton id="foxtracs-toolbarbutton"
       label="Fox Tracs"
       tooltiptext="Show Trac Tickets"
-      oncommand="openUILinkIn('chrome://foxtracs/content/trac.xul', 'current')"
+      oncommand="toggleSidebar('foxtracsBroadcaster')"
       class="toolbarbutton-1 chromeclass-toolbar-additional custombutton"
       />
   </toolbarpalette>
