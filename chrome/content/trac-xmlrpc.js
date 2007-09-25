@@ -6,7 +6,7 @@ function Tracker() {
   const Ci = Components.interfaces;
   var PREFS = Cc['@mozilla.org/preferences-service;1'].getService(Ci.nsIPrefService).getBranch('extension.foxtracs.');
 
-  function xhrrpc(method, params, callback) {
+  function xhrrpc(method, callback) {
     var req = new XMLHttpRequest();
     var base_url = PREFS.getCharPref('baseUrl');
     var url = base_url + '/xmlrpc'
@@ -22,11 +22,15 @@ function Tracker() {
 
     var post = "<?xml version='1.0'?>\n<methodCall>";
     post += "<methodName>" + method + "</methodName>";
-    if (params != null) {
-      post += "<params><param><value><i4>"+params+"</i4></value></param></params>";
+    if (arguments.length > 2) {
+      post += "<params>"
+      for (var i=2; i<arguments.length; i++) {
+        post += "<param>" + XMLRPC.encode(arguments[i]) + "</param>";
+      }
+      post += "</params>"
     }
     post += "</methodCall>";
-
+    console.log(post);
     req.send(post);
   }
 
@@ -72,14 +76,14 @@ function Tracker() {
     rdf.showOn($('mytree'))
     rdf.showOn($('mylist'))
 
-    xhrrpc('ticket.query', null, function(tickets) {
+    xhrrpc('ticket.query', function(tickets) {
       for (var i=0; i<tickets.length; i++) {
-        xhrrpc('ticket.get', tickets[i], function(info) {
+        xhrrpc('ticket.get', function(info) {
           info[3].id = info[0];
           info[3].created = info[1];
           info[3].changed = info[2];
           rdf.add('ticket:'+info[0], info[3]);
-        });
+        }, tickets[i]);
       }
     });
     inst.list();
