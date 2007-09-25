@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
 <?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<?xml-stylesheet type="text/css" href="chrome://foxtracs/skin/sidebar.css"?>
 
 <page xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
   <script type="text/javascript" src="chrome://browser/content/utilityOverlay.js" />
@@ -12,6 +13,7 @@
       var scripts = [
         'chrome://foxtracs/content/xmlrpc.js',
         'chrome://foxtracs/content/trac-xmlrpc.js',
+        'chrome://foxtracs/content/trac-rdf.js',
         'chrome://foxtracs/content/sidebar.js',
         ];
 
@@ -23,24 +25,40 @@
     window.addEventListener("load", loadJS, false);
   ]]></script>
 
-  <hbox>
-    <button oncommand="tracker.load()" label="reload" />
-    <button oncommand="tracker.list()" label="list" />
-    <spacer flex="1" />
-    <button oncommand="tracker.setup()" label="setup" />
-  </hbox>
+  <toolbox class="plain">
+    <toolbar id="foxtracs-toolbar">
+      <toolbarbutton class="toolbarbutton-1" id="trac-refresh" 
+                     label="Refresh" oncommand="tracker.load()" />
+      <toolbarbutton class="toolbarbutton-1" id="trac-tickets" 
+                     label="Tickets" oncommand="tracker.tickets()" />
+      <toolbarbutton class="toolbarbutton-1" id="trac-pages" 
+                     label="Wiki" oncommand="tracker.pages()" />
+      <spacer flex="1"/>
+      <toolbarbutton class="toolbarbutton-1" id="trac-setup"
+                     label="Setup" oncommand="tracker.setup()" />
+    </toolbar>
+  </toolbox>
   <deck flex="1" id="trac-deck">
     <vbox flex="1">
       <label value="trac url" />
       <textbox id="trac-url" />
       <button label="go" oncommand="tracker.save()" />
     </vbox>
-    <vbox id="mylist" flex="1" flags="dont-build-content" datasources="rdf:null" ref="urn:root" style="overflow: auto">
+    <vbox id="tickets" flex="1" flags="dont-build-content" datasources="rdf:null" ref="urn:tickets" style="overflow: auto">
       <template>
         <rule>
           <hbox uri="rdf:*">
             <checkbox />
-            <label value="rdf:http://home.netscape.com/NC-rdf#summary" onclick="openUILinkIn(this.parentNode.id, 'tab');" class="text-link" />
+            <label value="rdf:http://home.netscape.com/NC-rdf#summary" class="text-link" />
+          </hbox>
+        </rule>
+      </template>
+    </vbox>
+    <vbox id="pages" flex="1" flags="dont-build-content" datasources="rdf:null" ref="urn:pages" style="overflow: auto">
+      <template>
+        <rule>
+          <hbox uri="rdf:*">
+            <label value="rdf:http://home.netscape.com/NC-rdf#summary" class="text-link" />
           </hbox>
         </rule>
       </template>

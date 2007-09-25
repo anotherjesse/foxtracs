@@ -6,28 +6,6 @@ function Tracker() {
   const Ci = Components.interfaces;
   var PREFS = Cc['@mozilla.org/preferences-service;1'].getService(Ci.nsIPrefService).getBranch('extension.foxtracs.');
 
-  function RDF() {
-    const RDFS = Cc['@mozilla.org/rdf/rdf-service;1'].getService(Ci.nsIRDFService);
-    const RDFCU = Cc['@mozilla.org/rdf/container-utils;1'].getService(Ci.nsIRDFContainerUtils);
-    const NSRDF = function(name) { return RDFS.GetResource('http://home.netscape.com/NC-rdf#'+name); }
-
-    var ds = RDFS.GetDataSource('rdf:trac', false);
-    var bag = RDFCU.MakeBag(ds, RDFS.GetResource("urn:root"));
-
-    this.add = function( uri, val ) {
-      var resource = RDFS.GetResource(uri);
-      for (var k in val) {
-        ds.Assert(resource, NSRDF(k), RDFS.GetLiteral(val[k]), true);
-      }
-      bag.AppendElement(resource);
-    }
-
-    this.showOn = function(element) {
-      element.database.AddDataSource(ds);
-      element.builder.rebuild();
-    }
-  }
-
   this.init = function() {
     if (PREFS.getPrefType('baseUrl')) {
       inst.load();
@@ -49,7 +27,8 @@ function Tracker() {
   this.load = function() {
     var rdf = new RDF();
 
-    rdf.showOn($('mylist'))
+    rdf.showOn($('tickets'))
+    rdf.showOn($('pages'))
 
     // xhrrpc('ticket.create', function(result) {
     //   console.log(result);
@@ -66,11 +45,24 @@ function Tracker() {
           info[3].id = info[0];
           info[3].created = info[1];
           info[3].changed = info[2];
-          rdf.add('ticket:'+info[0], info[3]);
+          rdf.tickets.add('ticket:'+info[0], info[3]);
         }, tickets[i]);
       }
     });
-    inst.list();
+
+    xhrrpc(inst.url(), 'wiki.getAllPages', function(pages) {
+      for (var i=0; i<pages.length; i++) {
+        xhrrpc(inst.url(), 'wiki.getPageInfo', function(info) {
+          console.log(info);
+          // info[3].id = info[0];
+          // info[3].created = info[1];
+          // info[3].changed = info[2];
+          // rdf.pages.add('page:'+info[0], info[3]);
+        }, pages[i]);
+      }
+    });
+
+    inst.tickets();
   }
 
   this.setup = function() {
@@ -80,8 +72,12 @@ function Tracker() {
     $('trac-deck').selectedIndex = 0;
   }
 
-  this.list = function() {
+  this.tickets = function() {
     $('trac-deck').selectedIndex = 1;
+  }
+
+  this.pages = function() {
+    $('trac-deck').selectedIndex = 2;
   }
 }
 
