@@ -8,13 +8,19 @@
 //  XMLRPC.decode(xml) decodes xml, a DOM Element, string into a JavaScript object
 
 // how to extend:
-//  if you want to support more types just extend XMLRPC.encode and 
+//  if you want to support more types just extend XMLRPC.encode and
 //  XMLRPC.decode. it's pretty simple - do something like this...
 //  FIXME
 
 
 // TODO:
 //  * implement datetime & base64 - can be done as extensions
+
+function Base64(str) {
+    this.toXMLRPC = function() {
+        return '<base64>' + str + '</base64>';
+    }
+}
 
 function getChildrenByTagName(xml, name) {
     var nodes = [];
@@ -57,6 +63,11 @@ XMLRPC.encode = function (o) {
     var nul = (o === null);
     if (undef || nul) {
         return;
+    }
+
+    // if o implements toXMLRPC, use it
+    if (o.toXMLRPC) {
+      return o.toXMLRPC();
     }
 
     // what kind of something is it? what's our evidence?
