@@ -30,8 +30,8 @@ function Tracker() {
     // xhrrpc('ticket.create', function(result) {
     //   console.log(result);
     // }, 'summary is here', 'description is here', {type: "task"} );
-    // xhrrpc('ticket.putAttachment', function(result) { console.log(result) }, 
-    //   1, 'test2.png', 'test of png upload', new Base64("iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9YGARc5KB0XV+IAAAAddEVYdENvbW1lbnQAQ3JlYXRlZCB3aXRoIFRoZSBHSU1Q72QlbgAAAF1JREFUGNO9zL0NglAAxPEfdLTs4BZM4DIO4C7OwQg2JoQ9LE1exdlYvBBeZ7jqch9//q1uH4TLzw4d6+ErXMMcXuHWxId3KOETnnXXV6MJpcq2MLaI97CER3N0vr4MkhoXe0rZigAAAABJRU5ErkJggg=="));
+    // xhrrpc(inst.url(), 'ticket.putAttachment', function(result) { console.log(result) }, 
+    //    1, 'test2.png', 'test of png upload', new Base64("iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9YGARc5KB0XV+IAAAAddEVYdENvbW1lbnQAQ3JlYXRlZCB3aXRoIFRoZSBHSU1Q72QlbgAAAF1JREFUGNO9zL0NglAAxPEfdLTs4BZM4DIO4C7OwQg2JoQ9LE1exdlYvBBeZ7jqch9//q1uH4TLzw4d6+ErXMMcXuHWxId3KOETnnXXV6MJpcq2MLaI97CER3N0vr4MkhoXe0rZigAAAABJRU5ErkJggg=="));
     // xhrrpc('wiki.getAllPages', function(pages) {
     //   console.log(pages);
     // });
@@ -46,7 +46,7 @@ function Tracker() {
         }, ticketId);
       });
     });
-
+/*
     xhrrpc(inst.url(), 'wiki.getAllPages', function(pages) {
       pages.forEach(function(pageId) {
         xhrrpc(inst.url(), 'wiki.getPageInfo', function(info) {
@@ -54,7 +54,7 @@ function Tracker() {
         }, pageId);
       });
     });
-
+*/
     inst.tickets();
   }
 

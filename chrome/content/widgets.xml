@@ -84,22 +84,5 @@
       </method>
     </implementation>
   </binding>
-
-  <binding id="wikiPage">
-    <resources>
-      <stylesheet src="chrome://foxtracs/skin/widgets.css"/>
-    </resources>
-    <content>
-      <label value="fixme" />
-    </content>
-    <handlers>
-    </handlers>
-    <implementation>
-      <constructor>
-      </constructor>
-      <destructor>
-      </destructor>
-    </implementation>
-  </binding>
 </bindings>
 

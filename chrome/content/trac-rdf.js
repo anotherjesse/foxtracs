@@ -10,7 +10,6 @@ function RDF() {
 
   function Bag(urn) {
     var bag = RDFCU.MakeBag(ds, RDFS.GetResource(urn));
-//    root.AppendElement(bag);
     this.add = function( uri, val ) {
       var resource = RDFS.GetResource(uri);
       for (var k in val) {
@@ -22,5 +21,14 @@ function RDF() {
 
   this.tickets = new Bag('urn:tickets');
   this.pages = new Bag('urn:pages');
+  this.wrap = function(urn) {
+    var resource = RDFS.GetResource(urn);
+    return function(property) {
+      var target = ds.GetTarget(resource, NSRDF(property), true);
+      if (target instanceof Components.interfaces.nsIRDFLiteral){
+         return target.Value;
+      }
+    }
+  }
 }
 
