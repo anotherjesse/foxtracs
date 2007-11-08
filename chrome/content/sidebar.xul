@@ -45,9 +45,19 @@
   </toolbox>
   <deck flex="1" id="trac-deck">
     <vbox flex="1">
-      <label value="trac url" />
-      <textbox id="trac-url" />
-      <button label="go" oncommand="tracker.save()" />
+      <hbox>
+        <label value="Base URL" />
+        <textbox id="trac-url" />
+      </hbox>
+      <hbox>
+        <label value="User" />
+        <textbox id="trac-user" />
+      </hbox>
+      <hbox>
+        <label value="Password" />
+        <textbox id="trac-pass" />
+      </hbox>
+      <button label="save" oncommand="tracker.save()" />
     </vbox>
     <vbox id="tickets" flex="1" flags="dont-build-content" datasources="rdf:trac" ref="urn:tickets" style="overflow: auto">
       <template>

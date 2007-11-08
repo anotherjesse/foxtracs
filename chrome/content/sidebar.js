@@ -16,11 +16,21 @@ function Tracker() {
   }
 
   this.url = function() {
-    return PREFS.getCharPref('baseUrl') + '/xmlrpc';
+    return PREFS.getCharPref('baseUrl');
+  }
+
+  this.user = function() {
+    return PREFS.getCharPref('user');
+  }
+
+  this.pass = function() {
+    return PREFS.getCharPref('pass');
   }
 
   this.save = function() {
     PREFS.setCharPref('baseUrl', $('trac-url').value);
+    PREFS.setCharPref('user', $('trac-user').value);
+    PREFS.setCharPref('pass', $('trac-pass').value);
     inst.load();
   }
 
@@ -35,6 +45,8 @@ function Tracker() {
     // xhrrpc('wiki.getAllPages', function(pages) {
     //   console.log(pages);
     // });
+
+    xhrrpcLogin(inst.url(), inst.user(), inst.pass());
 
     xhrrpc(inst.url(), 'ticket.query', function(tickets) {
       tickets.forEach(function(ticketId) {

@@ -1,7 +1,13 @@
+function xhrrpcLogin(url, user, pass) {
+  var req = new XMLHttpRequest();
+  req.open('GET', url+'/login', false, user, pass); // don't do this async so that we force login to happen
+  req.send(null);
+}
+
 function xhrrpc(url, method, callback) {
   var req = new XMLHttpRequest();
 
-  req.open('POST', url, true);
+  req.open('POST', url+'/xmlrpc', true);
   req.onreadystatechange = function (aEvt) {
     if (req.readyState == 4 && req.status == 200) {
       var value = req.responseXML.getElementsByTagName('value')[0];
