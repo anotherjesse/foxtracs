@@ -30,16 +30,24 @@
     <ticket id="ticket-tooltip" />
   </tooltip>
 
+  <menupopup id="ticketContext" onpopupshowing="">
+    <menuitem label="view ticket" oncommand="console.log(document.popupNode); " />
+    <menuseparator />
+    <menuitem label="post screenshot" oncommand="tracker.screenshot(document.popupNode); " />
+    <menuseparator />
+    <menuitem label="close ticket" />
+  </menupopup>
+
   <toolbox class="plain">
     <toolbar id="foxtracs-toolbar">
-      <toolbarbutton class="toolbarbutton-1" id="trac-refresh" 
+      <toolbarbutton class="toolbarbutton-1" id="trac-refresh"
                      label="Refresh" oncommand="tracker.load()" />
-      <toolbarbutton class="toolbarbutton-1" id="trac-tickets" 
+      <toolbarbutton class="toolbarbutton-1" id="trac-tickets"
                      label="Tickets" oncommand="tracker.tickets()" />
-      <toolbarbutton class="toolbarbutton-1" id="trac-pages" 
+      <toolbarbutton class="toolbarbutton-1" id="trac-pages"
                      label="Wiki" oncommand="tracker.pages()" />
       <spacer flex="1"/>
-      <toolbarbutton class="toolbarbutton-1" id="trac-setup" 
+      <toolbarbutton class="toolbarbutton-1" id="trac-setup"
                      label="Setup" oncommand="tracker.setup()" />
     </toolbar>
   </toolbox>
@@ -62,7 +70,7 @@
     <vbox id="tickets" flex="1" flags="dont-build-content" datasources="rdf:trac" ref="urn:tickets" style="overflow: auto">
       <template>
         <rule>
-          <hbox uri="rdf:*">
+          <hbox uri="rdf:*" context="ticketContext">
             <checkbox />
 	    <label value="rdf:http://home.netscape.com/NC-rdf#id" />
 	    <label value="rdf:http://home.netscape.com/NC-rdf#summary" class="text-link" tooltip="tooltiptest" />
