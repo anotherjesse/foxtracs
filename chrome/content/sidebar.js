@@ -37,13 +37,6 @@ function Tracker() {
   this.load = function() {
     var rdf = new RDF();
 
-    // xhrrpc('ticket.create', function(result) {
-    //   console.log(result);
-    // }, 'summary is here', 'description is here', {type: "task"} );
-    // xhrrpc('wiki.getAllPages', function(pages) {
-    //   console.log(pages);
-    // });
-
     xhrrpcLogin(inst.url(), inst.user(), inst.pass());
 
     xhrrpc(inst.url(), 'ticket.query', function(tickets) {
@@ -56,15 +49,7 @@ function Tracker() {
         }, ticketId);
       });
     });
-/*
-    xhrrpc(inst.url(), 'wiki.getAllPages', function(pages) {
-      pages.forEach(function(pageId) {
-        xhrrpc(inst.url(), 'wiki.getPageInfo', function(info) {
-          rdf.pages.add('page:'+pageId, info);
-        }, pageId);
-      });
-    });
-*/
+
     inst.tickets();
   }
 
@@ -79,10 +64,6 @@ function Tracker() {
     $('trac-deck').selectedIndex = 1;
   }
 
-  this.pages = function() {
-    $('trac-deck').selectedIndex = 2;
-  }
-
   this.screenshot = function(node) {
     while (node.getAttribute('context') != 'ticketContext') {
       node = node.parentNode;
@@ -93,6 +74,22 @@ function Tracker() {
     var img = new Base64("iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9YGARc5KB0XV+IAAAAddEVYdENvbW1lbnQAQ3JlYXRlZCB3aXRoIFRoZSBHSU1Q72QlbgAAAF1JREFUGNO9zL0NglAAxPEfdLTs4BZM4DIO4C7OwQg2JoQ9LE1exdlYvBBeZ7jqch9//q1uH4TLzw4d6+ErXMMcXuHWxId3KOETnnXXV6MJpcq2MLaI97CER3N0vr4MkhoXe0rZigAAAABJRU5ErkJggg=="); 
     xhrrpc(inst.url(), 'ticket.putAttachment', function(result) { console.log(result) }, 
         ticketId, 'test2.png', 'test of png upload', img);
+  }
+
+  this.postTicket = function() {
+    xhrrpc('ticket.create', function(result) { console.log(result); }, 
+      'summary is here', 'description is here', {type: "task"} );
+  }
+
+  this.viewBug = function(node) {
+    while (node.getAttribute('context') != 'ticketContext') {
+      node = node.parentNode;
+    }
+
+    var ticketId = node.id.split(':')[1];  // id looks like 'ticket:42'
+
+    var url = inst.url() + "/ticket/" + ticketId;
+    openUILinkIn(url, 'tab');
   }
 }
 
