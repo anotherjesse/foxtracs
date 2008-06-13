@@ -3,7 +3,7 @@
 <RDF:RDF xmlns:RDF="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:em="http://www.mozilla.org/2004/em-rdf#">
   <RDF:Description RDF:about="urn:mozilla:install-manifest">
     <em:name>Fox Tracs</em:name>
-    <em:id>foxtracs@runningfrombears.com</em:id>
+    <em:id>foxtracs@overstimulate.com</em:id>
     <em:version>0.01</em:version>
     <em:description>Trac Viewer</em:description>
     <em:creator>Jesse Andrews; http://overstimulate.com</em:creator>
@@ -13,7 +13,7 @@
       <RDF:Description>
         <em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id>
         <em:minVersion>1.5</em:minVersion>
-        <em:maxVersion>2.0.*</em:maxVersion>
+        <em:maxVersion>3.0.*</em:maxVersion>
       </RDF:Description>
     </em:targetApplication>
 
