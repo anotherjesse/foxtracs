@@ -4,27 +4,11 @@
 
 <page xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
   <script type="text/javascript" src="chrome://browser/content/utilityOverlay.js" />
-  <script type="text/javascript"><![CDATA[
-
-    function loadJS() {
-      const loader = Components.classes["@mozilla.org/moz/jssubscript-loader;1"]
-                               .getService(Components.interfaces.mozIJSSubScriptLoader);
-
-      var scripts = [
-        'chrome://foxtracs/content/iso8601.js',
-        'chrome://foxtracs/content/xmlrpc.js',
-        'chrome://foxtracs/content/trac-xmlrpc.js',
-        'chrome://foxtracs/content/trac-rdf.js',
-        'chrome://foxtracs/content/sidebar.js',
-        ];
-
-      for (var i = 0; i < scripts.length; i++) {
-        loader.loadSubScript(scripts[i], window);
-      }
-    }
-
-    window.addEventListener("load", loadJS, false);
-  ]]></script>
+  <script type="text/javascript" src="chrome://foxtracs/content/iso8601.js" />
+  <script type="text/javascript" src="chrome://foxtracs/content/xmlrpc.js" />
+  <script type="text/javascript" src="chrome://foxtracs/content/trac-xmlrpc.js" />
+  <script type="text/javascript" src="chrome://foxtracs/content/trac-rdf.js" />
+  <script type="text/javascript" src="chrome://foxtracs/content/sidebar.js" />
 
   <tooltip id="tooltiptest" onpopupshowing="document.getElementById('ticket-tooltip').update(document.tooltipNode.parentNode.id)">
     <ticket id="ticket-tooltip" />
@@ -44,6 +28,8 @@
                      label="Refresh" oncommand="tracker.load()" />
       <toolbarbutton class="toolbarbutton-1" id="trac-tickets"
                      label="Tickets" oncommand="tracker.tickets()" />
+      <toolbarbutton class="toolbarbutton-1" id="trac-add-ticket"
+                     label="Add Ticket" oncommand="tracker.addTicket()" />
       <spacer flex="1"/>
       <toolbarbutton class="toolbarbutton-1" id="trac-setup"
                      label="Setup" oncommand="tracker.setup()" />
@@ -69,7 +55,7 @@
       <template>
         <rule>
           <hbox uri="rdf:*" context="ticketContext">
-            <checkbox />
+            <label value="rdf:http://home.netscape.com/NC-rdf#owner" />
 	    <label value="rdf:http://home.netscape.com/NC-rdf#id" />
             <label value="rdf:http://home.netscape.com/NC-rdf#summary" tooltip="tooltiptest" />
           </hbox>

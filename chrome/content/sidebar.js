@@ -1,3 +1,16 @@
+log = function(str) {
+  if (typeof(console) == 'object' && console.log) {
+    console.log(str);
+  }
+  else {
+    var aConsoleService = Components.classes["@mozilla.org/consoleservice;1"].
+         getService(Components.interfaces.nsIConsoleService);
+
+    aConsoleService.logStringMessage(str);
+  }
+};
+
+
 
 function Tracker() {
   var inst=this;
@@ -39,6 +52,12 @@ function Tracker() {
 
     xhrrpcLogin(inst.url(), inst.user(), inst.pass());
 
+    inst.tickets();
+
+//    xhrrpc(inst.url(), 'ticket.getAvailableActions', function(result) {
+//	     log(result)
+//	   }, 193);
+
     xhrrpc(inst.url(), 'ticket.query', function(tickets) {
       tickets.forEach(function(ticketId) {
         xhrrpc(inst.url(), 'ticket.get', function(info) {
@@ -50,7 +69,7 @@ function Tracker() {
       });
     });
 
-    inst.tickets();
+
   }
 
   this.setup = function() {
@@ -71,13 +90,13 @@ function Tracker() {
 
     var ticketId = node.id.split(':')[1];  // id looks like 'ticket:42'
 
-    var img = new Base64("iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9YGARc5KB0XV+IAAAAddEVYdENvbW1lbnQAQ3JlYXRlZCB3aXRoIFRoZSBHSU1Q72QlbgAAAF1JREFUGNO9zL0NglAAxPEfdLTs4BZM4DIO4C7OwQg2JoQ9LE1exdlYvBBeZ7jqch9//q1uH4TLzw4d6+ErXMMcXuHWxId3KOETnnXXV6MJpcq2MLaI97CER3N0vr4MkhoXe0rZigAAAABJRU5ErkJggg=="); 
-    xhrrpc(inst.url(), 'ticket.putAttachment', function(result) { console.log(result) }, 
+    var img = new Base64("iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9YGARc5KB0XV+IAAAAddEVYdENvbW1lbnQAQ3JlYXRlZCB3aXRoIFRoZSBHSU1Q72QlbgAAAF1JREFUGNO9zL0NglAAxPEfdLTs4BZM4DIO4C7OwQg2JoQ9LE1exdlYvBBeZ7jqch9//q1uH4TLzw4d6+ErXMMcXuHWxId3KOETnnXXV6MJpcq2MLaI97CER3N0vr4MkhoXe0rZigAAAABJRU5ErkJggg==");
+    xhrrpc(inst.url(), 'ticket.putAttachment', function(result) { log(result) },
         ticketId, 'test2.png', 'test of png upload', img);
   }
 
   this.postTicket = function() {
-    xhrrpc('ticket.create', function(result) { console.log(result); }, 
+    xhrrpc('ticket.create', function(result) { log(result); },
       'summary is here', 'description is here', {type: "task"} );
   }
 
@@ -93,7 +112,7 @@ function Tracker() {
   }
 }
 
-var tracker = new Tracker();
-
-tracker.init();
-
+window.onload = function() {
+  tracker = new Tracker();
+  tracker.init();
+}

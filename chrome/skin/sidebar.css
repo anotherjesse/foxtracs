@@ -6,8 +6,8 @@
   list-style-image: url("arrow_refresh.png");
 }
 
-#trac-pages {
-  list-style-image: url("page.png");
+#trac-tickets {
+  list-style-image: url("add.png");
 }
 
 #trac-tickets {
